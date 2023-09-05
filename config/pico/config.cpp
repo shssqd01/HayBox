@@ -24,33 +24,33 @@ size_t backend_count;
 KeyboardMode *current_kb_mode = nullptr;
 
 GpioButtonMapping button_mappings[] = {
-    {&InputState::l,            5 },
-    { &InputState::left,        4 },
-    { &InputState::down,        3 },
-    { &InputState::right,       2 },
+    { &InputState::mod_x,       5  },
+    { &InputState::left,        4  },
+    { &InputState::down,        3  },
+    { &InputState::right,       2  },
 
-    { &InputState::mod_x,       6 },
-    { &InputState::mod_y,       7 },
+    { &InputState::up,          6  },
+    { &InputState::nunchuk_c,   7  }, //Dpad Toggle
 
-    { &InputState::select,      10},
-    { &InputState::start,       0 },
-    { &InputState::home,        11},
+    { &InputState::select,      10 },
+    { &InputState::start,       0  },
+    { &InputState::home,        11 },
 
-    { &InputState::c_left,      13},
-    { &InputState::c_up,        12},
-    { &InputState::c_down,      15},
-    { &InputState::a,           14},
-    { &InputState::c_right,     16},
+    { &InputState::c_left,      13 },
+    { &InputState::c_up,        12 },
+    { &InputState::c_down,      15 },
+    { &InputState::a,           14 },
+    { &InputState::c_right,     16 },
 
-    { &InputState::b,           26},
-    { &InputState::x,           21},
-    { &InputState::z,           19},
-    { &InputState::up,          17},
+    { &InputState::b,           26 },
+    { &InputState::x,           21 },
+    { &InputState::l,           19 },
+    { &InputState::mod_y,       17 },
 
-    { &InputState::r,           27},
-    { &InputState::y,           22},
-    { &InputState::lightshield, 20},
-    { &InputState::midshield,   18},
+    { &InputState::lightshield, 27 }, //ZL
+    { &InputState::y,           22 },
+    { &InputState::r,           20 },
+    { &InputState::z,           18 }, //ZR
 };
 size_t button_count = sizeof(button_mappings) / sizeof(GpioButtonMapping);
 
@@ -89,14 +89,13 @@ void setup() {
     CommunicationBackend *primary_backend;
     if (console == ConnectedConsole::NONE) {
         if (button_holds.x) {
-            // If no console detected and X is held on plugin then use Switch USB backend.
-            NintendoSwitchBackend::RegisterDescriptor();
-            backend_count = 1;
-            primary_backend = new NintendoSwitchBackend(input_sources, input_source_count);
-            backends = new CommunicationBackend *[backend_count] { primary_backend };
-
-            // Default to Ultimate mode on Switch.
-            primary_backend->SetGameMode(new Ultimate(socd::SOCD_2IP));
+            // If no console detected and X is held on plugin then use XInput mode.
+            backend_count = 2;
+            primary_backend = new XInputBackend(input_sources, input_source_count);
+            backends = new CommunicationBackend *[backend_count] {
+                primary_backend, new B0XXInputViewer(input_sources, input_source_count)
+            };
+            primary_backend->SetGameMode(new FgcMode(socd::SOCD_NEUTRAL, socd::SOCD_NEUTRAL));
             return;
         } else if (button_holds.z) {
             // If no console detected and Z is held on plugin then use DInput backend.
@@ -108,12 +107,15 @@ void setup() {
                 primary_backend, new B0XXInputViewer(input_sources, input_source_count)
             };
         } else {
-            // Default to XInput mode if no console detected and no other mode forced.
-            backend_count = 2;
-            primary_backend = new XInputBackend(input_sources, input_source_count);
-            backends = new CommunicationBackend *[backend_count] {
-                primary_backend, new B0XXInputViewer(input_sources, input_source_count)
-            };
+            // Default to Switch USB backend if no console detected and no other mode forced.
+            NintendoSwitchBackend::RegisterDescriptor();
+            backend_count = 1;
+            primary_backend = new NintendoSwitchBackend(input_sources, input_source_count);
+            backends = new CommunicationBackend *[backend_count] { primary_backend };
+
+            // Default to Ultimate mode on Switch.
+            primary_backend->SetGameMode(new Ultimate(socd::SOCD_2IP));
+            return;
         }
     } else {
         if (console == ConnectedConsole::GAMECUBE) {
