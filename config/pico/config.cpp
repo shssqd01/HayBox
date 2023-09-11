@@ -47,10 +47,10 @@ GpioButtonMapping button_mappings[] = {
     { &InputState::l,           19 },
     { &InputState::mod_y,       17 },
 
-    { &InputState::lightshield, 27 }, //ZL
+    { &InputState::z,           27 }, //Right Bumper
     { &InputState::y,           22 },
     { &InputState::r,           20 },
-    { &InputState::z,           18 }, //ZR
+    { &InputState::lightshield, 18 }, //Left Bumper
 };
 size_t button_count = sizeof(button_mappings) / sizeof(GpioButtonMapping);
 
