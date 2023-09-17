@@ -28,15 +28,15 @@ void FgcMode::UpdateDigitalOutputs(InputState &inputs, OutputState &outputs) {
 
     // Right hand bottom row
     outputs.a = inputs.a;
-    outputs.b = inputs.b;
-    outputs.triggerRDigital = inputs.r;
-    outputs.triggerLDigital = inputs.l;
+    outputs.b = inputs.x;
+    outputs.triggerRDigital = inputs.l;
+    outputs.triggerLDigital = inputs.lightshield;
 
     // Right hand top row
-    outputs.x = inputs.x;
+    outputs.x = inputs.b;
     outputs.y = inputs.y;
-    outputs.buttonR = inputs.z;
-    outputs.buttonL = inputs.lightshield;
+    outputs.buttonR = inputs.r;
+    outputs.buttonL = inputs.z;
 
     // Right hand thumb
     outputs.leftStickClick = inputs.mod_y;
