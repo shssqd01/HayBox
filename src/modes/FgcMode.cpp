@@ -19,7 +19,7 @@ void FgcMode::UpdateDigitalOutputs(InputState &inputs, OutputState &outputs) {
     outputs.dpadLeft = inputs.left;
     outputs.dpadRight = inputs.right;
     outputs.dpadDown = inputs.down;
-    outputs.dpadUp = inputs.nunchuk_c || inputs.up;
+    outputs.dpadUp = inputs.up;
 
     // Menu keys
     outputs.start = inputs.c_left;

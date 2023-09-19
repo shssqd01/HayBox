@@ -114,7 +114,7 @@ void setup() {
             backends = new CommunicationBackend *[backend_count] { primary_backend };
 
             // Default to Ultimate mode on Switch.
-            primary_backend->SetGameMode(new Ultimate(socd::SOCD_2IP));
+            primary_backend->SetGameMode(new Ultimate(socd::SOCD_NEUTRAL));
             return;
         }
     } else {
