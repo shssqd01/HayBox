@@ -89,7 +89,7 @@ void setup() {
     CommunicationBackend *primary_backend;
     if (console == ConnectedConsole::NONE) {
         if (button_holds.x) {
-            // If no console detected and X is held on plugin then use XInput mode.
+            // If no console detected and X is held on plugin then use XInput backend with FGC mode.
             backend_count = 2;
             primary_backend = new XInputBackend(input_sources, input_source_count);
             backends = new CommunicationBackend *[backend_count] {
@@ -97,8 +97,16 @@ void setup() {
             };
             primary_backend->SetGameMode(new FgcMode(socd::SOCD_NEUTRAL, socd::SOCD_NEUTRAL));
             return;
+        } else if (button_holds.y) {
+            // If no console detected and Y is held on plugin then use XInput backend with Melee mode.
+            backend_count = 2;
+            primary_backend = new XInputBackend(input_sources, input_source_count);
+            backends = new CommunicationBackend *[backend_count] {
+                primary_backend, new B0XXInputViewer(input_sources, input_source_count)
+            };
+            return;
         } else if (button_holds.z) {
-            // If no console detected and Z is held on plugin then use DInput backend.
+            // If no console detected and Z is held on plugin then use DInput backend with Melee mode.
             TUGamepad::registerDescriptor();
             TUKeyboard::registerDescriptor();
             backend_count = 2;
@@ -107,7 +115,7 @@ void setup() {
                 primary_backend, new B0XXInputViewer(input_sources, input_source_count)
             };
         } else {
-            // Default to Switch USB backend if no console detected and no other mode forced.
+            // Default to Switch USB backend with Ultimate mode.
             NintendoSwitchBackend::RegisterDescriptor();
             backend_count = 1;
             primary_backend = new NintendoSwitchBackend(input_sources, input_source_count);
