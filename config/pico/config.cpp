@@ -104,7 +104,6 @@ void setup() {
             backends = new CommunicationBackend *[backend_count] {
                 primary_backend, new B0XXInputViewer(input_sources, input_source_count)
             };
-            return;
         } else if (button_holds.z) {
             // If no console detected and Z is held on plugin then use DInput backend with Melee mode.
             TUGamepad::registerDescriptor();
