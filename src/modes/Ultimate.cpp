@@ -31,8 +31,8 @@ void Ultimate::UpdateDigitalOutputs(InputState &inputs, OutputState &outputs) {
         outputs.dpadRight = inputs.c_right;
         outputs.leftStickClick = inputs.lightshield;
         outputs.rightStickClick = inputs.z;
-        outputs.select = inputs.start;
-        outputs.home = inputs.mod_y;
+        outputs.select = inputs.mod_y;
+        outputs.home = inputs.start;
     }
     else
     {
