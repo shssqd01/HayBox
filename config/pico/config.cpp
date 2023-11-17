@@ -88,8 +88,25 @@ void setup() {
     /* Select communication backend. */
     CommunicationBackend *primary_backend;
     if (console == ConnectedConsole::NONE) {
-        if (button_holds.x) {
-            // If no console detected and X is held on plugin then use XInput backend with FGC mode.
+        if (button_holds.a) {
+            // If A is held on plugin, then use Switch backend with FGC mode.
+            NintendoSwitchBackend::RegisterDescriptor();
+            backend_count = 1;
+            primary_backend = new NintendoSwitchBackend(input_sources, input_source_count);
+            backends = new CommunicationBackend *[backend_count] { primary_backend };
+            primary_backend->SetGameMode(new FgcMode(socd::SOCD_NEUTRAL, socd::SOCD_NEUTRAL));
+            return;
+        } else if (button_holds.b) {
+            // If B is held on plugin, then use XInput backend with Ultimate mode.
+            backend_count = 2;
+            primary_backend = new XInputBackend(input_sources, input_source_count);
+            backends = new CommunicationBackend *[backend_count] {
+                primary_backend, new B0XXInputViewer(input_sources, input_source_count)
+            };
+            primary_backend->SetGameMode(new Ultimate(socd::SOCD_NEUTRAL));
+            return;
+        } else if (button_holds.x) {
+            // If X is held on plugin, then use XInput backend with FGC mode.
             backend_count = 2;
             primary_backend = new XInputBackend(input_sources, input_source_count);
             backends = new CommunicationBackend *[backend_count] {
@@ -98,14 +115,18 @@ void setup() {
             primary_backend->SetGameMode(new FgcMode(socd::SOCD_NEUTRAL, socd::SOCD_NEUTRAL));
             return;
         } else if (button_holds.y) {
-            // If no console detected and Y is held on plugin then use XInput backend with Melee mode.
+            // If Y is held on plugin, then use XInput backend with Melee mode.
             backend_count = 2;
             primary_backend = new XInputBackend(input_sources, input_source_count);
             backends = new CommunicationBackend *[backend_count] {
                 primary_backend, new B0XXInputViewer(input_sources, input_source_count)
             };
+            primary_backend->SetGameMode(
+                new Melee20Button(socd::SOCD_NEUTRAL, { .crouch_walk_os = false })
+            );
+            return;
         } else if (button_holds.z) {
-            // If no console detected and Z is held on plugin then use DInput backend with Melee mode.
+            // If Z is held on plugin, then use DInput backend with Melee mode.
             TUGamepad::registerDescriptor();
             TUKeyboard::registerDescriptor();
             backend_count = 2;
@@ -113,14 +134,16 @@ void setup() {
             backends = new CommunicationBackend *[backend_count] {
                 primary_backend, new B0XXInputViewer(input_sources, input_source_count)
             };
-        } else {
-            // Default to Switch USB backend with Ultimate mode.
+            primary_backend->SetGameMode(
+                new Melee20Button(socd::SOCD_NEUTRAL, { .crouch_walk_os = false })
+            );
+            return;
+        } else  {
+            // Default to Switch backend with Ultimate mode.
             NintendoSwitchBackend::RegisterDescriptor();
             backend_count = 1;
             primary_backend = new NintendoSwitchBackend(input_sources, input_source_count);
             backends = new CommunicationBackend *[backend_count] { primary_backend };
-
-            // Default to Ultimate mode on Switch.
             primary_backend->SetGameMode(new Ultimate(socd::SOCD_NEUTRAL));
             return;
         }
@@ -135,12 +158,11 @@ void setup() {
         // If console then only using 1 backend (no input viewer).
         backend_count = 1;
         backends = new CommunicationBackend *[backend_count] { primary_backend };
+        primary_backend->SetGameMode(
+            new Melee20Button(socd::SOCD_NEUTRAL, { .crouch_walk_os = false })
+        );
+        return;
     }
-
-    // Default to Melee mode.
-    primary_backend->SetGameMode(
-        new Melee20Button(socd::SOCD_2IP_NO_REAC, { .crouch_walk_os = false })
-    );
 }
 
 void loop() {
