@@ -7,9 +7,10 @@
 
 class FgcMode : public ControllerMode {
   public:
-    FgcMode(socd::SocdType horizontal_socd, socd::SocdType vertical_socd);
+    FgcMode(socd::SocdType horizontal_socd, socd::SocdType vertical_socd, bool swap_up_down);
 
   private:
+    bool _swap_up_down;
     void UpdateDigitalOutputs(InputState &inputs, OutputState &outputs);
     void UpdateAnalogOutputs(InputState &inputs, OutputState &outputs);
 };

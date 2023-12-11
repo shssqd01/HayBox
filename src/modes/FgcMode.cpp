@@ -1,6 +1,6 @@
 #include "modes/FgcMode.hpp"
 
-FgcMode::FgcMode(socd::SocdType horizontal_socd, socd::SocdType vertical_socd) {
+FgcMode::FgcMode(socd::SocdType horizontal_socd, socd::SocdType vertical_socd, bool swap_up_down) {
     _socd_pair_count = 4;
     _socd_pairs = new socd::SocdPair[_socd_pair_count]{
         socd::SocdPair{&InputState::left,   &InputState::right, horizontal_socd         },
@@ -12,14 +12,15 @@ FgcMode::FgcMode(socd::SocdType horizontal_socd, socd::SocdType vertical_socd) {
         socd::SocdPair{ &InputState::down,  &InputState::mod_x, vertical_socd           },
         socd::SocdPair{ &InputState::down,  &InputState::c_up,  vertical_socd           },
     };
+    _swap_up_down = swap_up_down;
 }
 
 void FgcMode::UpdateDigitalOutputs(InputState &inputs, OutputState &outputs) {
     // Directions
     outputs.dpadLeft = inputs.left;
     outputs.dpadRight = inputs.right;
-    outputs.dpadDown = inputs.down;
-    outputs.dpadUp = inputs.up;
+    outputs.dpadDown = _swap_up_down ? inputs.up : inputs.down;
+    outputs.dpadUp = _swap_up_down ? inputs.down : inputs.up;
 
     // Menu keys
     outputs.start = inputs.c_up;

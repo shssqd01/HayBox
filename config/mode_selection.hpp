@@ -32,6 +32,7 @@ void set_mode(CommunicationBackend *backend, KeyboardMode *mode) {
 
 void select_mode(CommunicationBackend *backend) {
     InputState &inputs = backend->GetInputs();
+    /*
     if (inputs.mod_x && !inputs.mod_y && inputs.start) {
         if (inputs.l) {
             set_mode(
@@ -53,9 +54,20 @@ void select_mode(CommunicationBackend *backend) {
         } else if (inputs.b) {
             set_mode(backend, new RivalsOfAether(socd::SOCD_2IP));
         }
-    } else if (inputs.mod_y && !inputs.mod_x && inputs.start) {
         if (inputs.l) {
             set_mode(backend, new DefaultKeyboardMode(socd::SOCD_2IP));
+        }
+    } else 
+    */
+    if (inputs.mod_y && !inputs.mod_x && inputs.start) {
+        if (inputs.c_right) {
+            set_mode(backend, new Ultimate(socd::SOCD_NEUTRAL));
+        } else if (inputs.c_up) {
+            set_mode(backend, new Melee20Button(socd::SOCD_NEUTRAL, { .crouch_walk_os = false }));
+        } else if (inputs.c_left) {
+            set_mode(backend, new FgcMode(socd::SOCD_NEUTRAL, socd::SOCD_NEUTRAL, false));
+        } else if (inputs.c_down) {
+            set_mode(backend, new FgcMode(socd::SOCD_NEUTRAL, socd::SOCD_NEUTRAL, true));
         }
     }
 }

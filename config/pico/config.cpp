@@ -88,44 +88,16 @@ void setup() {
     /* Select communication backend. */
     CommunicationBackend *primary_backend;
     if (console == ConnectedConsole::NONE) {
-        if (button_holds.a) {
-            // If A is held on plugin, then use Switch backend with Ultimate mode.
+        if (button_holds.b) {
+            // If B is held on plugin, then use Switch backend with Ultimate mode.
             NintendoSwitchBackend::RegisterDescriptor();
             backend_count = 1;
             primary_backend = new NintendoSwitchBackend(input_sources, input_source_count);
             backends = new CommunicationBackend *[backend_count] { primary_backend };
-            primary_backend->SetGameMode(new Ultimate(socd::SOCD_NEUTRAL));
-            return;
-        } else if (button_holds.b) {
-            // If B is held on plugin, then use Switch backend with FGC mode.
-            NintendoSwitchBackend::RegisterDescriptor();
-            backend_count = 1;
-            primary_backend = new NintendoSwitchBackend(input_sources, input_source_count);
-            backends = new CommunicationBackend *[backend_count] { primary_backend };
-            primary_backend->SetGameMode(new FgcMode(socd::SOCD_NEUTRAL, socd::SOCD_NEUTRAL));
-            return;
-        } else if (button_holds.x) {
-            // If X is held on plugin, then use XInput backend with Ultimate mode.
-            backend_count = 2;
-            primary_backend = new XInputBackend(input_sources, input_source_count);
-            backends = new CommunicationBackend *[backend_count] {
-                primary_backend, new B0XXInputViewer(input_sources, input_source_count)
-            };
             primary_backend->SetGameMode(new Ultimate(socd::SOCD_NEUTRAL));
             return;
         } else if (button_holds.y) {
-            // If Y is held on plugin, then use XInput backend with Melee mode.
-            backend_count = 2;
-            primary_backend = new XInputBackend(input_sources, input_source_count);
-            backends = new CommunicationBackend *[backend_count] {
-                primary_backend, new B0XXInputViewer(input_sources, input_source_count)
-            };
-            primary_backend->SetGameMode(
-                new Melee20Button(socd::SOCD_NEUTRAL, { .crouch_walk_os = false })
-            );
-            return;
-        } else if (button_holds.z) {
-            // If Z is held on plugin, then use DInput backend with Ultimate mode.
+            // If Y is held on plugin, then use DInput backend with FGC mode.
             TUGamepad::registerDescriptor();
             TUKeyboard::registerDescriptor();
             backend_count = 2;
@@ -133,7 +105,7 @@ void setup() {
             backends = new CommunicationBackend *[backend_count] {
                 primary_backend, new B0XXInputViewer(input_sources, input_source_count)
             };
-            primary_backend->SetGameMode(new Ultimate(socd::SOCD_NEUTRAL));
+            primary_backend->SetGameMode(new FgcMode(socd::SOCD_NEUTRAL, socd::SOCD_NEUTRAL, false));
             return;
         } else {
             // Default to XInput backend with FGC mode.
@@ -142,7 +114,7 @@ void setup() {
             backends = new CommunicationBackend *[backend_count] {
                 primary_backend, new B0XXInputViewer(input_sources, input_source_count)
             };
-            primary_backend->SetGameMode(new FgcMode(socd::SOCD_NEUTRAL, socd::SOCD_NEUTRAL));
+            primary_backend->SetGameMode(new FgcMode(socd::SOCD_NEUTRAL, socd::SOCD_NEUTRAL, false));
             return;
         }
     } else {
