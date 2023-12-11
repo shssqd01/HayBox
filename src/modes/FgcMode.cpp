@@ -25,7 +25,7 @@ void FgcMode::UpdateDigitalOutputs(InputState &inputs, OutputState &outputs) {
     // Menu keys
     outputs.start = inputs.c_up;
     outputs.select = inputs.c_left;
-    outputs.home = inputs.start;
+    outputs.home = inputs.nunchuk_c && inputs.start;
 
     // Right hand bottom row
     outputs.a = inputs.a;
