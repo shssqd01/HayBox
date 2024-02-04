@@ -108,16 +108,12 @@ void Ultimate::UpdateAnalogOutputs(InputState &inputs, OutputState &outputs) {
         }
         // MX + Horizontal = 6625 = 53
         else if (directions.horizontal) {
-            // Horizontal Tilts = 36
-            if (inputs.a) {
-                outputs.leftStickX = 128 + (directions.x * 36);
-            }
             // Horizontal Shield tilt = 51
             if (shield_button_pressed) {
                 outputs.leftStickX = 128 + (directions.x * 51);
             }
             else {
-                outputs.leftStickX = 128 + (directions.x * 53);
+                outputs.leftStickX = 128 + (directions.x * 64);
             }
         }
         // MX + Vertical = 44
@@ -127,7 +123,7 @@ void Ultimate::UpdateAnalogOutputs(InputState &inputs, OutputState &outputs) {
                 outputs.leftStickY = 128 + (directions.y * 51);
             }
             else {
-                outputs.leftStickY = 128 + (directions.y * 44);
+                outputs.leftStickY = 128 + (directions.y * 64);
             }
         }
     }
