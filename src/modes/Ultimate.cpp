@@ -77,28 +77,28 @@ void Ultimate::UpdateAnalogOutputs(InputState &inputs, OutputState &outputs) {
             }
             else if (inputs.c_down) {
                 // 37.5 degrees
-                outputs.leftStickX = 128 + (directions.x * 67);
-                outputs.leftStickY = 128 + (directions.y * 51);
+                outputs.leftStickX = 128 + (directions.x * 79);
+                outputs.leftStickY = 128 + (directions.y * 61);
             }
             else if (inputs.c_left) {
                 // 30 degrees
-                outputs.leftStickX = 128 + (directions.x * 67);
-                outputs.leftStickY = 128 + (directions.y * 39);
+                outputs.leftStickX = 128 + (directions.x * 87);
+                outputs.leftStickY = 128 + (directions.y * 50);
             }
             else if (inputs.c_up) {
                 // 15 degrees
-                outputs.leftStickX = 128 + (directions.x * 67);
-                outputs.leftStickY = 128 + (directions.y * 18);
+                outputs.leftStickX = 128 + (directions.x * 97);
+                outputs.leftStickY = 128 + (directions.y * 26);
             }
             else if (inputs.c_right) {
                 // 7.5 degrees
-                outputs.leftStickX = 128 + (directions.x * 67);
-                outputs.leftStickY = 128 + (directions.y * 9);
+                outputs.leftStickX = 128 + (directions.x * 99);
+                outputs.leftStickY = 128 + (directions.y * 13);
             }
             else {
                 // 22.5 degrees
-                outputs.leftStickX = 128 + (directions.x * 67);
-                outputs.leftStickY = 128 + (directions.y * 28);
+                outputs.leftStickX = 128 + (directions.x * 92);
+                outputs.leftStickY = 128 + (directions.y * 38);
             }
         }
         // Angled fsmash/ftilt with C-Stick + MX
@@ -146,28 +146,28 @@ void Ultimate::UpdateAnalogOutputs(InputState &inputs, OutputState &outputs) {
             }
             else if (inputs.c_down) {
                 // 52.5 degrees
-                outputs.leftStickX = 128 + (directions.x * 51);
-                outputs.leftStickY = 128 + (directions.y * 67);
+                outputs.leftStickX = 128 + (directions.x * 61);
+                outputs.leftStickY = 128 + (directions.y * 79);
             }
             else if (inputs.c_left) {
                 // 60 degrees
-                outputs.leftStickX = 128 + (directions.x * 39);
-                outputs.leftStickY = 128 + (directions.y * 67);
+                outputs.leftStickX = 128 + (directions.x * 50);
+                outputs.leftStickY = 128 + (directions.y * 87);
             }
             else if (inputs.c_up) {
                 // 75 degrees
-                outputs.leftStickX = 128 + (directions.x * 18);
-                outputs.leftStickY = 128 + (directions.y * 67);
+                outputs.leftStickX = 128 + (directions.x * 26);
+                outputs.leftStickY = 128 + (directions.y * 97);
             }
             else if (inputs.c_right) {
                 // 82.5 degrees
-                outputs.leftStickX = 128 + (directions.x * 9);
-                outputs.leftStickY = 128 + (directions.y * 67);
+                outputs.leftStickX = 128 + (directions.x * 13);
+                outputs.leftStickY = 128 + (directions.y * 99);
             }
             else {
                 // 67.5 degrees
-                outputs.leftStickX = 128 + (directions.x * 28);
-                outputs.leftStickY = 128 + (directions.y * 67);
+                outputs.leftStickX = 128 + (directions.x * 38);
+                outputs.leftStickY = 128 + (directions.y * 92);
             }
         }
         // MY + Horizontal (even if shield is held) = 41
