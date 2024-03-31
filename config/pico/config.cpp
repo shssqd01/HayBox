@@ -22,6 +22,7 @@
 CommunicationBackend **backends = nullptr;
 size_t backend_count;
 KeyboardMode *current_kb_mode = nullptr;
+bool is_switch_backend = false;
 
 GpioButtonMapping button_mappings[] = {
     { &InputState::mod_x,       5  },
@@ -90,6 +91,7 @@ void setup() {
     if (console == ConnectedConsole::NONE) {
         if (button_holds.b) {
             // If B is held on plugin, then use Switch backend with Ultimate mode.
+            is_switch_backend = true;
             NintendoSwitchBackend::RegisterDescriptor();
             backend_count = 1;
             primary_backend = new NintendoSwitchBackend(input_sources, input_source_count);
@@ -135,7 +137,7 @@ void setup() {
 }
 
 void loop() {
-    select_mode(backends[0]);
+    select_mode(backends[0], is_switch_backend);
 
     for (size_t i = 0; i < backend_count; i++) {
         backends[i]->SendReport();

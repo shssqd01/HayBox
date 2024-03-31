@@ -1,6 +1,7 @@
 #ifndef _CONFIG_MODE_SELECTION_HPP
 #define _CONFIG_MODE_SELECTION_HPP
 
+#include <typeinfo>
 #include "core/state.hpp"
 #include "modes/DefaultKeyboardMode.hpp"
 #include "modes/FgcMode.hpp"
@@ -8,6 +9,7 @@
 #include "modes/ProjectM.hpp"
 #include "modes/RivalsOfAether.hpp"
 #include "modes/Ultimate.hpp"
+#include "modes/Generic.hpp"
 
 extern KeyboardMode *current_kb_mode;
 
@@ -30,40 +32,13 @@ void set_mode(CommunicationBackend *backend, KeyboardMode *mode) {
     backend->SetGameMode(nullptr);
 }
 
-void select_mode(CommunicationBackend *backend) {
+void select_mode(CommunicationBackend *backend, bool is_switch_backend = false) {
     InputState &inputs = backend->GetInputs();
-    /*
-    if (inputs.mod_x && !inputs.mod_y && inputs.start) {
-        if (inputs.l) {
-            set_mode(
-                backend,
-                new Melee20Button(socd::SOCD_2IP_NO_REAC, { .crouch_walk_os = false })
-            );
-        } else if (inputs.left) {
-            set_mode(
-                backend,
-                new ProjectM(
-                    socd::SOCD_2IP_NO_REAC,
-                    { .true_z_press = false, .ledgedash_max_jump_traj = true }
-                )
-            );
-        } else if (inputs.down) {
-            set_mode(backend, new Ultimate(socd::SOCD_2IP));
-        } else if (inputs.right) {
-            set_mode(backend, new FgcMode(socd::SOCD_NEUTRAL, socd::SOCD_NEUTRAL));
-        } else if (inputs.b) {
-            set_mode(backend, new RivalsOfAether(socd::SOCD_2IP));
-        }
-        if (inputs.l) {
-            set_mode(backend, new DefaultKeyboardMode(socd::SOCD_2IP));
-        }
-    } else 
-    */
     if (inputs.mod_y && !inputs.mod_x && inputs.start) {
         if (inputs.c_right) {
             set_mode(backend, new Ultimate(socd::SOCD_NEUTRAL));
         } else if (inputs.c_up) {
-            set_mode(backend, new Melee20Button(socd::SOCD_NEUTRAL, { .crouch_walk_os = false }));
+            set_mode(backend, new Generic(socd::SOCD_NEUTRAL, is_switch_backend));
         } else if (inputs.c_left) {
             set_mode(backend, new FgcMode(socd::SOCD_NEUTRAL, socd::SOCD_NEUTRAL, false));
         } else if (inputs.c_down) {
