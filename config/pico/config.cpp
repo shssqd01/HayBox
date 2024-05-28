@@ -110,13 +110,13 @@ void setup() {
             primary_backend->SetGameMode(new FgcMode(socd::SOCD_NEUTRAL, socd::SOCD_NEUTRAL, false));
             return;
         } else {
-            // Default to XInput backend with FGC mode.
+            // Default to XInput backend with Generic controller mode.
             backend_count = 2;
             primary_backend = new XInputBackend(input_sources, input_source_count);
             backends = new CommunicationBackend *[backend_count] {
                 primary_backend, new B0XXInputViewer(input_sources, input_source_count)
             };
-            primary_backend->SetGameMode(new FgcMode(socd::SOCD_NEUTRAL, socd::SOCD_NEUTRAL, false));
+            primary_backend->SetGameMode(new Generic(socd::SOCD_NEUTRAL, false));
             return;
         }
     } else {
