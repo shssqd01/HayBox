@@ -1,9 +1,9 @@
 /* Ultimate profile by Taker */
 #include "modes/Generic.hpp"
 
-#define ANALOG_STICK_MIN 28
+#define ANALOG_STICK_MIN 0
 #define ANALOG_STICK_NEUTRAL 128
-#define ANALOG_STICK_MAX 228
+#define ANALOG_STICK_MAX 255
 
 Generic::Generic(socd::SocdType socd_type, bool is_switch) {
     _socd_pair_count = 4;
@@ -73,4 +73,15 @@ void Generic::UpdateAnalogOutputs(InputState &inputs, OutputState &outputs) {
         ANALOG_STICK_MAX,
         outputs
     );
+
+    if (directions.x != 0 && directions.y != 0)
+    {
+        outputs.leftStickX -= 28 * directions.x;
+        outputs.leftStickY -= 28 * directions.y;
+    }
+    if (directions.cx != 0 && directions.cy != 0)
+    {
+        outputs.rightStickX -= 28 * directions.cx;
+        outputs.rightStickY -= 28 * directions.cy;
+    }
 }
