@@ -2,7 +2,9 @@
 #include "modes/Generic.hpp"
 
 #define ANALOG_STICK_MIN 0
+#define ANALOG_STICK_MIN_SWITCH 28
 #define ANALOG_STICK_NEUTRAL 128
+#define ANALOG_STICK_MAX_SWITCH 228
 #define ANALOG_STICK_MAX 255
 
 Generic::Generic(socd::SocdType socd_type, bool is_switch) {
@@ -68,9 +70,9 @@ void Generic::UpdateAnalogOutputs(InputState &inputs, OutputState &outputs) {
         inputs.c_right,
         inputs.c_down,
         inputs.c_up,
-        ANALOG_STICK_MIN,
+        _is_switch ? ANALOG_STICK_MIN_SWITCH : ANALOG_STICK_MIN,
         ANALOG_STICK_NEUTRAL,
-        ANALOG_STICK_MAX,
+        _is_switch ? ANALOG_STICK_MAX_SWITCH : ANALOG_STICK_MAX,
         outputs
     );
 
