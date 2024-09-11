@@ -10,6 +10,7 @@
 #include "modes/RivalsOfAether.hpp"
 #include "modes/Ultimate.hpp"
 #include "modes/Generic.hpp"
+#include "modes/Ultimate_Kazuya.hpp"
 
 extern KeyboardMode *current_kb_mode;
 
@@ -43,6 +44,8 @@ void select_mode(CommunicationBackend *backend, bool is_switch_backend = false) 
             set_mode(backend, new FgcMode(socd::SOCD_NEUTRAL, socd::SOCD_NEUTRAL, false));
         } else if (inputs.c_down) {
             set_mode(backend, new FgcMode(socd::SOCD_NEUTRAL, socd::SOCD_NEUTRAL, true));
+        } else if (inputs.z) {
+            set_mode(backend, new Ultimate_Kazuya(socd::SOCD_NEUTRAL));
         }
     }
 }
