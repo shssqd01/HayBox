@@ -57,52 +57,42 @@ void Ultimate_Kazuya::UpdateAnalogOutputs(InputState &inputs, OutputState &outpu
         inputs.c_right,
         inputs.c_down,
         inputs.c_up,
-        ANALOG_STICK_TILT_MIN,
+        ANALOG_STICK_MIN,
         ANALOG_STICK_NEUTRAL,
-        ANALOG_STICK_TILT_MAX,
+        ANALOG_STICK_MAX,
         outputs
     );
 
     bool shield_button_pressed = inputs.l || inputs.r;
 
-    if (inputs.mod_x) {
-        if (directions.diagonal) {
-            outputs.leftStickX = 128 + (directions.x * 100);
-            outputs.leftStickY = 128 + (directions.y * 100);
+    if (inputs.mod_x || inputs.a) {
+        if (directions.cx != 0) {
+            // Angled fsmash/ftilt with C-Stick + MX
+            outputs.rightStickX = ANALOG_STICK_NEUTRAL + (directions.cx * 72);
+            outputs.rightStickY = ANALOG_STICK_NEUTRAL + (directions.y * 59);
         }
-        // Angled fsmash/ftilt with C-Stick + MX
-        else if (directions.cx != 0) {
-            outputs.rightStickX = 128 + (directions.cx * 72);
-            outputs.rightStickY = 128 + (directions.y * 59);
-        }
-        // MX + Horizontal = 6625 = 53
-        else if (directions.horizontal) {
-            // Horizontal Shield tilt = 51
-            outputs.leftStickX = 128 + (directions.x * 100);
-        }
-        // MX + Vertical = 44
-        else if (directions.vertical) {
-            // Vertical Shield Tilt = 51
-            outputs.leftStickY = 128 + (directions.y * 100);
+        else {
+            outputs.leftStickX = ANALOG_STICK_NEUTRAL + (directions.x * 64);
+            outputs.leftStickY = ANALOG_STICK_NEUTRAL + (directions.y * 64);
         }
     }
     else if (inputs.mod_y) {
         if (directions.diagonal) {
             if (inputs.a) {
                 // MY Pivot Uptilt/Dtilt
-                outputs.leftStickX = 128 + (directions.x * 34);
-                outputs.leftStickY = 128 + (directions.y * 38);
+                outputs.leftStickX = ANALOG_STICK_NEUTRAL + (directions.x * 34);
+                outputs.leftStickY = ANALOG_STICK_NEUTRAL + (directions.y * 38);
             }
         }
         // MY + Horizontal (even if shield is held) = 41
         else if (directions.horizontal) {
             // MY Horizontal Tilts
-            outputs.leftStickX = 128 + (directions.x * 41);
+            outputs.leftStickX = ANALOG_STICK_NEUTRAL + (directions.x * 41);
         }
         // MY + Vertical (even if shield is held) = 53
         else if (directions.vertical) {
             // MY Vertical Tilts
-            outputs.leftStickY = 128 + (directions.y * 53);
+            outputs.leftStickY = ANALOG_STICK_NEUTRAL + (directions.y * 53);
         }
     }
 
@@ -110,8 +100,8 @@ void Ultimate_Kazuya::UpdateAnalogOutputs(InputState &inputs, OutputState &outpu
     // angled fsmash).
     if (directions.cx != 0 && directions.cy != 0) {
         // 5250 8500 = 42 68
-        outputs.rightStickX = 128 + (directions.cx * 42);
-        outputs.rightStickY = 128 + (directions.cy * 68);
+        outputs.rightStickX = ANALOG_STICK_NEUTRAL + (directions.cx * 42);
+        outputs.rightStickY = ANALOG_STICK_NEUTRAL + (directions.cy * 68);
     }
 
     if (inputs.l) {
@@ -124,8 +114,8 @@ void Ultimate_Kazuya::UpdateAnalogOutputs(InputState &inputs, OutputState &outpu
 
     // Shut off C-stick when using D-Pad layer.
     if (inputs.nunchuk_c) {
-        outputs.rightStickX = 128;
-        outputs.rightStickY = 128;
+        outputs.rightStickX = ANALOG_STICK_NEUTRAL;
+        outputs.rightStickY = ANALOG_STICK_NEUTRAL;
     }
 
     // Nunchuk overrides left stick.
