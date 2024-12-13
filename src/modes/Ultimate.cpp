@@ -191,6 +191,11 @@ void Ultimate::UpdateAnalogOutputs(InputState &inputs, OutputState &outputs) {
             }
         }
     }
+    else if (inputs.a) {
+        // Automatic tilts. Use c-stick to smash.
+        outputs.leftStickX = ANALOG_STICK_NEUTRAL + (directions.x * 64);
+        outputs.leftStickY = ANALOG_STICK_NEUTRAL + (directions.y * 64);
+    }
 
     // C-stick ASDI Slideoff angle overrides any other C-stick modifiers (such as
     // angled fsmash).
